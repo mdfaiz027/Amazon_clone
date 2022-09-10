@@ -1,13 +1,23 @@
 package com.example.amazonclone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
@@ -15,6 +25,14 @@ public class SignupActivity extends AppCompatActivity {
 
     EditText name, email, password, re_enter_password;
     private String nameInput, emailInput, passwordInput, re_enter_passwordInput;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+    ProgressDialog progressDialog;
+
+    FirebaseAuth firebaseAuth;
+
 
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
@@ -35,6 +53,14 @@ public class SignupActivity extends AppCompatActivity {
         password = findViewById(R.id.suETPassword);
         re_enter_password = findViewById(R.id.suETRePassword);
 
+        sharedPreferences = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
 
     }
 
@@ -50,13 +76,60 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
+        createUser();
+
     }
+
+    private void createUser() {
+
+        progressDialog.show();
+        progressDialog.setMessage("Creating user....");
+
+        emailInput = email.getText().toString();
+        passwordInput = password.getText().toString();
+
+        firebaseAuth.createUserWithEmailAndPassword(emailInput,passwordInput).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressDialog.dismiss();
+
+                if(!task.isSuccessful()){
+                    //Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                }else{
+                    editor.putString("usermail", emailInput);
+                    editor.putBoolean("status", true);
+                    editor.commit();
+
+                    navigateToHomeActivity();
+                    Toast.makeText(SignupActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+
+                Toast.makeText(SignupActivity.this, ""+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void navigateToHomeActivity() {
+        Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
 
     private boolean validateName() {
 
         nameInput = name.getText().toString();
 
-        if(nameInput.matches("^[\\p{L} .'-]+$")){
+        if (nameInput.isEmpty()) {
+            name.setError("Field can not be empty");
+            return false;
+        }else if(nameInput.matches("^[\\p{L} .'-]+$")){
             return true;
         }else{
             name.setError("Enter a valid name!");

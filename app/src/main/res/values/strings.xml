@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Amazon clone</string>
-    <string name="signup_agreement">By creating an account, you agree to Amazon\'s</string>
-    <string name="signup_agreement1">Conditions of Use</string>
-    <string name="signup_agreement2">Privacy Notice.</string>
-    <string name="signin_agreement">"By continuing, you agree to Amazon's "</string>
+    <string name="signup_agreement">By creating an account, you agree to Amazon\'s Conditions of use and Privacy Notice."</string>
+    <string name="signin_agreement">"By continuing, you agree to Amazon\'s Conditions of use and Privacy Notice."</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

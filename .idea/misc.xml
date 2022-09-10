@@ -7,9 +7,16 @@
         <entry key="app/src/main/res/drawable/border.xml" value="0.1485" />
         <entry key="app/src/main/res/drawable/border_top.xml" value="0.1485" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1485" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/first_custom_rv_layout.xml" value="0.22873022659256093" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.22958529286019666" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22958529286019666" />
+        <entry key="app/src/main/res/layout/fragment_menu.xml" value="0.22958529286019666" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.22958529286019666" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22873022659256093" />
       </map>
     </option>
   </component>
